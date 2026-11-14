@@ -1,0 +1,17 @@
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { useStore } from '../store'
+import { rupee } from '../lib/format'
+export default function ROI() {
+  const hide = useStore(s => s.presenter.hidePrices)
+  const [missed, setMissed] = useState(6); const [genuine, setGenuine] = useState(40); const [conv, setConv] = useState(10); const [avg, setAvg] = useState(60000)
+  const rec = Math.round(missed * 30 * (genuine / 100) * (conv / 100) * avg * 0.7); const cost = 5999 + 4000; const x = rec / cost
+  const S = ({ l, v, set, min, max, step, f }: { l: string; v: number; set: (n: number) => void; min: number; max: number; step: number; f: (n: number) => string }) => <label className="block text-sm"><div className="flex justify-between mb-1"><span className="text-white/60">{l}</span><b>{f(v)}</b></div><input type="range" className="w-full" min={min} max={max} step={step} value={v} onChange={e => set(+e.target.value)} /></label>
+  const plans = [['Missed-Call Saver', '₹7,999 setup + ₹1,499/month', ['Cloud number setup', 'Missed-call WhatsApp', 'Chatbot capture', 'Daily digest']], ['AI Receptionist', '₹29,999–49,999 setup + ₹3,999–5,999/month', ['Voice agent', 'Knowledge base', 'CRM', 'WhatsApp summaries', 'Dashboard']], ['Usage', 'At actuals — about ₹5–8/min all-in at small volumes', ['Voice AI minutes', 'Telephony minutes']]]
+  return <div className="p-6 max-w-5xl mx-auto space-y-6"><h1 className="font-head text-2xl font-semibold">ROI & Plans</h1>
+    <div className="grid md:grid-cols-2 gap-5"><div className="card p-5 space-y-5"><S l="Missed calls per day" v={missed} set={setMissed} min={1} max={30} step={1} f={n => String(n)} /><S l="% genuine enquiries" v={genuine} set={setGenuine} min={10} max={90} step={5} f={n => n + '%'} /><S l="Conversion rate" v={conv} set={setConv} min={2} max={40} step={1} f={n => n + '%'} /><S l="Average booking value" v={avg} set={setAvg} min={5000} max={300000} step={5000} f={rupee} /></div>
+      <div className="card p-5 flex flex-col justify-between"><div><div className="text-xs text-white/45">Monthly revenue recovered</div><div className="font-head text-4xl text-teal mt-1">{rupee(rec)}</div></div>
+        <div className="flex items-end gap-6 h-40 my-4"><div className="flex-1 flex flex-col justify-end h-full"><motion.div className="rounded-t-lg bg-teal" animate={{ height: Math.min(100, rec / Math.max(rec, cost) * 100) + '%' }} /><div className="text-[11px] text-center mt-1 text-white/50">Recovered</div></div><div className="flex-1 flex flex-col justify-end h-full"><motion.div className="rounded-t-lg bg-violet" animate={{ height: Math.max(3, cost / Math.max(rec, cost) * 100) + '%' }} /><div className="text-[11px] text-center mt-1 text-white/50">CallCatch cost</div></div></div>
+        <div className="flex justify-between text-sm"><span>{hide ? 'ROI multiple' : `CallCatch ≈ ${rupee(cost)}/month`}</span><b className="text-xl font-head">{x.toFixed(1)}×</b></div><p className="text-xs text-white/45 mt-2">One extra booking a month pays for it.</p></div></div>
+    <div className="grid md:grid-cols-3 gap-4">{plans.map(([n, p, f]) => <div key={n as string} className="card p-5"><h3 className="font-head font-semibold">{n as string}</h3><div className="text-sm text-teal mt-1 min-h-[40px]">{hide ? 'Pricing shared on request' : p as string}</div><ul className="mt-3 text-sm text-white/65 space-y-1">{(f as string[]).map(i => <li key={i}>✓ {i}</li>)}</ul></div>)}</div></div>
+}
