@@ -7,10 +7,10 @@ const Hero = lazy(() => import('../three/Hero'))
 export default function Landing() {
   const nav = useNavigate(); const p = useStore(s => s.presenter); const [calls, setCalls] = useState(212); const [leads, setLeads] = useState(64)
   useEffect(() => { const i = setInterval(() => setCalls(c => c + 1), 3500); return () => clearInterval(i) }, [])
-  return <div className="h-full relative overflow-hidden bg-ink">
-    <div className="absolute inset-0"><Suspense fallback={null}><Hero onCatch={() => setLeads(l => l + 1)} /></Suspense></div>
-    <div className="absolute inset-x-0 top-0 p-6 flex justify-between items-center z-10"><div className="flex items-center gap-3"><span className="w-9 h-9 rounded-xl grid place-items-center font-head font-bold text-[#04201b] bg-teal">CC</span><b className="font-head">CallCatch <span className="text-white/40 font-normal text-sm">by Neovia AI</span></b></div><button className="btn" onClick={() => nav('/dashboard')}>Open app</button></div>
-    <div className="absolute inset-x-0 bottom-0 z-10 p-6 md:p-10 bg-gradient-to-t from-ink via-ink/80 to-transparent">
+  return <div className="h-full relative overflow-y-auto md:overflow-hidden bg-ink">
+    <div className="relative h-[44vh] md:absolute md:inset-0 md:h-auto"><Suspense fallback={null}><Hero onCatch={() => setLeads(l => l + 1)} /></Suspense></div>
+    <div className="absolute inset-x-0 top-0 p-4 md:p-6 flex justify-between items-center z-10"><div className="flex items-center gap-3"><span className="w-9 h-9 rounded-xl grid place-items-center font-head font-bold text-[#04201b] bg-teal">CC</span><b className="font-head">CallCatch <span className="text-white/40 font-normal text-sm">by Neovia AI</span></b></div><button className="btn" onClick={() => nav('/dashboard')}>Open app</button></div>
+    <div className="relative md:absolute inset-x-0 bottom-0 z-10 p-5 md:p-10 bg-ink md:bg-transparent md:bg-gradient-to-t from-ink via-ink/80 to-transparent">
       <div className="max-w-3xl">{p.prospectBusiness && <div className="chip mb-3 text-teal">Demo prepared for {p.prospectBusiness}</div>}
         <h1 className="font-head text-3xl md:text-5xl font-semibold leading-tight">Never miss an enquiry again — even at 10 p.m. on a Sunday.</h1>
         <p className="text-white/65 mt-3 md:text-lg">Riya answers your calls in Hindi, English and Hinglish, captures the lead, books a callback and sends everything to WhatsApp.</p>

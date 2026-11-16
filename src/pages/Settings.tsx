@@ -7,7 +7,7 @@ export default function Settings() {
   useEffect(() => { const f = () => setVs(voices()); f(); speechSynthesis?.addEventListener?.('voiceschanged', f); return () => speechSynthesis?.removeEventListener?.('voiceschanged', f) }, [])
   const sorted = [...vs].sort((a, b) => (+(b.lang === 'hi-IN') * 2 + +(b.lang === 'en-IN')) - (+(a.lang === 'hi-IN') * 2 + +(a.lang === 'en-IN')))
   const L = ({ t, children }: { t: string; children: React.ReactNode }) => <label className="block text-xs text-white/50 space-y-1"><span>{t}</span>{children}</label>
-  return <div className="p-6 max-w-3xl mx-auto space-y-5"><h1 className="font-head text-2xl font-semibold">Agent Settings · {v.name}</h1>
+  return <div className="p-3 md:p-6 max-w-3xl mx-auto space-y-5"><h1 className="font-head text-2xl font-semibold">Agent Settings · {v.name}</h1>
     <div className="card p-4 space-y-4"><L t="Persona name"><input className="w-full" value={st.persona[v.id]} onChange={e => s.setSettings({ persona: { ...st.persona, [v.id]: e.target.value } })} /></L>
       <L t="Greeting (AI disclosure and recording notice are locked)"><div className="relative"><textarea readOnly rows={3} className="w-full opacity-80" value={v.greeting.replace(/Riya|Asha|Neha/, st.persona[v.id])} /><Lock size={14} className="absolute right-3 top-3 text-amber" /></div></L>
       <div className="flex gap-4 flex-wrap text-sm">{Object.keys(st.languages).map(l => <label key={l} className="flex gap-2 items-center"><input type="checkbox" checked={st.languages[l]} onChange={e => s.setSettings({ languages: { ...st.languages, [l]: e.target.checked } })} />{l}</label>)}</div>

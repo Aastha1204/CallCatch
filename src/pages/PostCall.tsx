@@ -28,9 +28,9 @@ export default function PostCall() {
   const wa = s.presenter.prospectPhone.replace(/\D/g, '')
   const sendReal = () => { if (!wa) { s.say('Add the prospect WhatsApp number in Presenter (Ctrl + .) first'); return } window.open(`https://wa.me/${wa}?text=${encodeURIComponent(summary)}`, '_blank') }
   const strip = [['Saved to CRM', '2s'], ['Callback booked', '3s'], ['Brochure sent', '3s'], ['Owner alerted', '4s']]
-  return <div className="p-6 max-w-6xl mx-auto">
-    <h1 className="font-head text-2xl font-semibold mb-1">Call ended · everything sent in seconds</h1><p className="text-white/50 text-sm mb-4">{call.fields.name ?? 'Caller'} · {call.callerPhone} · {call.durationSec}s · {call.outcome}</p>
-    <div className="h-[640px]"><Suspense fallback={<div className="h-full grid place-items-center text-white/30">Loading 3D phones…</div>}>
+  return <div className="p-3 md:p-6 max-w-6xl mx-auto">
+    <h1 className="font-head text-xl md:text-2xl font-semibold mb-1">Call ended · everything sent in seconds</h1><p className="text-white/50 text-sm mb-4">{call.fields.name ?? 'Caller'} · {call.callerPhone} · {call.durationSec}s · {call.outcome}</p>
+    <div className="md:h-[640px]"><Suspense fallback={<div className="h-full grid place-items-center text-white/30">Loading 3D phones…</div>}>
       <Phones w={330} h={640} className="w-full h-full" phones={[{ x: -2.1, label: "Caller's WhatsApp", node: <WhatsAppPhoneUI title={f.name ?? 'Caller'} sub="online" typing={step === 1} msgs={caller.map(m => ({ ...m, from: 'them' }))} h={640} /> }, { x: 2.1, label: "Owner's WhatsApp", node: <WhatsAppPhoneUI title="CallCatch Alerts" sub="business account" typing={step === 3} msgs={ownerM} h={640} /> }]} /></Suspense></div>
     <div className="flex flex-wrap gap-3 my-5 justify-center">{strip.map(([l, tm], i) => <div key={l} className={`chip transition ${step > i ? 'border-ok/40 text-ok' : 'opacity-40'}`}>{step > i && <Check size={13} />}{l} · {tm}</div>)}</div>
     <div className="flex flex-wrap gap-3 justify-center"><button className="btn btn-primary" onClick={sendReal}><ExternalLink size={16} />Send this summary to my real WhatsApp</button><button className="btn" onClick={() => nav('/dashboard')}><LayoutDashboard size={16} />Open dashboard</button>{pkg && <button className="btn" onClick={() => downloadBrochure(v, pkg)}>Download brochure PDF</button>}</div>

@@ -9,7 +9,7 @@ export function Calls() {
   const sl = useSlice(); const nav = useNavigate(); const newId = useStore(s => s.newCallId)
   const [q, setQ] = useState(''); const [out, setOut] = useState('all'); const [after, setAfter] = useState(false); const [lang, setLang] = useState('all'); const [range, setRange] = useState('all')
   const list = useMemo(() => sl.calls.filter(c => (out === 'all' || c.outcome === out) && (!after || c.afterHours) && (lang === 'all' || c.lang === lang) && (range === 'all' || c.startedAt > Date.now() - (+range) * 86400000 * 400 || true) && (!q || (c.summary + c.callerPhone + (c.fields.name ?? '')).toLowerCase().includes(q.toLowerCase()))), [sl.calls, q, out, after, lang, range])
-  return <div className="p-6 max-w-[1300px] mx-auto"><h1 className="font-head text-2xl font-semibold mb-4">Calls</h1>
+  return <div className="p-3 md:p-6 max-w-[1300px] mx-auto"><h1 className="font-head text-2xl font-semibold mb-4">Calls</h1>
     <div className="flex gap-3 flex-wrap mb-4"><input placeholder="Search name, phone, summary…" value={q} onChange={e => setQ(e.target.value)} className="w-72" />
       <select value={out} onChange={e => setOut(e.target.value)}><option value="all">All outcomes</option>{['Lead captured', 'FAQ only', 'Transferred', 'Spam'].map(o => <option key={o}>{o}</option>)}</select>
       <select value={lang} onChange={e => setLang(e.target.value)}><option value="all">All languages</option><option value="HI">Hindi</option><option value="EN">English</option><option value="MIX">Hinglish</option></select>
@@ -30,7 +30,7 @@ export function CallDetail() {
     for (let i = 0; i < call.transcript.length; i++) { if (stop.current) break; setLine(i); await speak(call.transcript[i].text, { role: call.transcript[i].who, voiceURI: s.settings.voiceURI, rate: 1.15 }) }
     setPlaying(false); if (!stop.current) setLine(-1) }
   const head = call.fields.name ?? call.callerPhone; const pos = line < 0 ? 0 : (line + 1) / call.transcript.length
-  return <div className="p-6 max-w-6xl mx-auto space-y-5">
+  return <div className="p-3 md:p-6 max-w-6xl mx-auto space-y-5">
     <div className="flex justify-between flex-wrap gap-2"><div><h1 className="font-head text-2xl font-semibold">{head}</h1><div className="text-sm text-white/50">{fmtDT(call.startedAt)} · {call.callerPhone} · {mmss(call.durationSec)}</div></div>
       <div className="flex gap-2 items-center"><span className={`chip ${call.sentiment === 'positive' ? 'text-ok' : call.sentiment === 'unhappy' ? 'text-alert' : ''}`}>{call.sentiment}</span><span className="chip">{call.outcome}</span><span className="chip">Cost ₹{call.cost.toFixed(2)} ({mmss(call.durationSec)} × ₹{s.settings.costPerMin}/min)</span>
         <button className="btn" onClick={() => { s.addLead({ id: 'L-' + Math.floor(Math.random() * 9000), callId: call.id, businessId: v.id, name: call.fields.name ?? 'Caller', phone: call.callerPhone, need: call.fields, budget: 0, score: call.score ?? 40, stage: 'Contacted', source: 'AI call', createdAt: Date.now() }); s.say('Follow-up created in Leads') }}><ListPlus size={16} />Create follow-up</button></div></div>

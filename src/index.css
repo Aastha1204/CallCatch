@@ -2,6 +2,7 @@
 :root { color-scheme: dark; --accent: #2EE6C5; }
 html, body, #root { height: 100%; }
 body { margin: 0; background: radial-gradient(1200px 700px at 70% -10%, #101a33 0%, #070B14 60%); color: #e6ecf5; font-family: Inter, 'Noto Sans Devanagari', sans-serif; }
+@layer components {
 .card { background: #0E1422; border: 1px solid rgba(255,255,255,.06); border-radius: 16px; }
 .btn { display:inline-flex; align-items:center; gap:.5rem; padding:.55rem 1rem; border-radius:12px; font-weight:600; font-size:14px; transition: transform .2s, background .2s, box-shadow .2s; cursor:pointer; border:1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.04); color:#e6ecf5;}
 .btn:hover { background: rgba(255,255,255,.09); transform: translateY(-1px); }
@@ -10,6 +11,7 @@ body { margin: 0; background: radial-gradient(1200px 700px at 70% -10%, #101a33 
 .btn-primary:hover { background: var(--accent); filter: brightness(1.1); }
 .btn-danger { background:#FF5A5F; color:white; border-color:transparent; }
 .chip { display:inline-flex; align-items:center; gap:.35rem; padding:.15rem .6rem; border-radius:999px; font-size:12px; border:1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.04); }
+}
 input, select, textarea { background:#0a101c; border:1px solid rgba(255,255,255,.1); border-radius:10px; padding:.5rem .7rem; color:#e6ecf5; font-size:14px; outline:none; }
 input:focus, select:focus, textarea:focus { border-color: var(--accent); }
 h1,h2,h3,.font-head { font-family: Sora, 'Noto Sans Devanagari', sans-serif; }
